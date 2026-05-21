@@ -375,6 +375,57 @@
 
   .info-box strong { color: var(--warm-brown); }
 
+  /* ── NEWSLETTER OPT-IN ── */
+  .newsletter-check {
+    margin-bottom: 16px;
+    width: 100%;
+  }
+
+  .newsletter-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .newsletter-label input[type="checkbox"] {
+    display: none;
+  }
+
+  .newsletter-box {
+    flex-shrink: 0;
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
+    position: relative;
+  }
+
+  .newsletter-label input[type="checkbox"]:checked + .newsletter-box {
+    background: var(--burnt-orange);
+    border-color: var(--burnt-orange);
+  }
+
+  .newsletter-label input[type="checkbox"]:checked + .newsletter-box::after {
+    content: '✓';
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    position: absolute;
+  }
+
+  .newsletter-text {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
   /* ── SUBMIT ── */
   .submit-row {
     margin-top: 36px;
@@ -738,7 +789,6 @@
         <option value="none">None / No restrictions</option>
         <option value="vegetarian">Some vegetarians</option>
         <option value="vegan">Some vegans</option>
-        <option value="halal">Halal required</option>
         <option value="glutenfree">Gluten-free needed</option>
         <option value="nutallergy">Nut allergy</option>
         <option value="dairyfree">Dairy-free needed</option>
@@ -748,7 +798,7 @@
     </div>
     <div class="field">
       <label>Dietary notes (optional)</label>
-      <input type="text" id="dietaryNotes" placeholder="e.g. 10 guests are vegetarian, 2 halal">
+      <input type="text" id="dietaryNotes" placeholder="e.g. 10 guests are vegetarian, 3 are gluten-free">
     </div>
   </div>
 
@@ -762,6 +812,15 @@
   </div>
 
   <div class="submit-row">
+
+    <div class="newsletter-check">
+      <label class="newsletter-label">
+        <input type="checkbox" id="newsletterOptIn" checked>
+        <span class="newsletter-box"></span>
+        <span class="newsletter-text">Keep me updated with menus, offers and news from Sosolicious Food 🍽️</span>
+      </label>
+    </div>
+
     <button class="submit-btn" onclick="submitForm()">Send My Enquiry →</button>
     <p class="submit-note">We'll get back to you within 24 hours with a personalised menu and quote.</p>
   </div>
@@ -877,6 +936,7 @@
     const dietaryNotes = document.getElementById('dietaryNotes').value.trim();
     const comments = document.getElementById('comments').value.trim();
     const serviceStyle = document.getElementById('serviceStyleValue').value || 'Not specified';
+    const newsletter = document.getElementById('newsletterOptIn').checked ? 'Yes — add to newsletter' : 'No';
 
     const formData = {
       'Full Name': `${name} ${lastName}`.trim(),
@@ -895,6 +955,7 @@
       'Dietary Requirements': dietary,
       'Dietary Notes': dietaryNotes || 'None',
       'Additional Comments': comments || 'None',
+      'Newsletter Opt-In': newsletter,
       '_subject': `New Catering Enquiry — ${evType} — ${name} (${date})`
     };
 
